@@ -30,7 +30,7 @@ class Mdl_admin extends CI_Model {
 	}
 	
 	public function selectById($table,$param){
-		$this->db->get_where($table,$param)->result_array();
+		return $this->db->get_where($table,$param)->result_array();
 	}
 }
 

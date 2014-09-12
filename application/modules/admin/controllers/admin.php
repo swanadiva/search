@@ -157,8 +157,14 @@ class Admin extends CI_Controller {
 		$this->load->view('list',$data);		
 	}
 	
-	public function view(){
-		$this->load->view('view');
+	public function view($param){
+		$id = array('id' => $param);
+		$data['menu'] = 'menu';
+		$data['ID'] = $this->mdl_admin->selectById('tbl_content',$id);
+		print_r($data['ID']);
+		//print $id;
+		die();
+		//$this->load->view('view',$data);
 	}
 }
 
