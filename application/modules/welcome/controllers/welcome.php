@@ -32,33 +32,37 @@ class Welcome extends CI_Controller {
 
 	public function search(){	
 		$isi = trim($this->input->post('txt_cari'));
-		$this->session->set_flashdata('isi', $isi);
+		if ($isi == ''){
+			$this->index();
+		}else{
+			$this->session->set_flashdata('isi', $isi);
 
-		$pecah = explode(" ", $isi);
-		$simpan = '';
-		for ($i=0; $i < sizeof($pecah); $i++) { 
-			if ($i == 0) {
-				$simpan = $pecah[$i];
-			}else{
-				$simpan = $simpan."|".$pecah[$i];
-			}			
-		}
+			$pecah = explode(" ", $isi);
+			$simpan = '';
+			for ($i=0; $i < sizeof($pecah); $i++) { 
+				if ($i == 0) {
+					$simpan = $pecah[$i];
+				}else{
+					$simpan = $simpan."|".$pecah[$i];
+				}			
+			}
 
-		$atas = str_replace("|", "-", $simpan);
-		$config['base_url'] = site_url("welcome/next/$atas");
-		$config['total_rows'] = $this->mdl_welcome->hitung($simpan);
-		$config['per_page'] = '3';
-		$config['next_link'] = 'Next';
-		$config['prev_link'] = 'Previous';
-		$offset=$this->uri->segment(4);
-		if ($offset == '' || $offset == NULL) {
-			$offset = 0;
+			$atas = str_replace("|", "-", $simpan);
+			$config['base_url'] = site_url("welcome/next/$atas");
+			$config['total_rows'] = $this->mdl_welcome->hitung($simpan);
+			$config['per_page'] = '3';
+			$config['next_link'] = 'Next';
+			$config['prev_link'] = 'Previous';
+			$offset=$this->uri->segment(4);
+			if ($offset == '' || $offset == NULL) {
+				$offset = 0;
+			}
+			$data['hasil'] = $this->mdl_welcome->search($config['per_page'],$offset, $simpan);
+			$this->pagination->initialize($config);      
+			$data['menu'] = 'menu';
+			$data['content'] = 'welcome_content';
+			$this->load->view('welcome_message', $data);
 		}
-		$data['hasil'] = $this->mdl_welcome->search($config['per_page'],$offset, $simpan);
-		$this->pagination->initialize($config);      
-		$data['menu'] = 'menu';
-		$data['content'] = 'welcome_content';
-		$this->load->view('welcome_message', $data);
 	}
 
 	public function next(){		
@@ -98,6 +102,12 @@ class Welcome extends CI_Controller {
 		$data['menu'] = 'menu';
 		$data['content'] = 'welcome_content';
 		$this->load->view('welcome_message', $data);
+	}
+	
+	public function viewPDF($param){ //VIEWER PDF		
+		$id = array('id' => $param);
+		$data['byID'] = $this->mdl_welcome->selectById('tbl_content',$id);				
+		$this->load->view('viewer',$data);		
 	}
 }
 

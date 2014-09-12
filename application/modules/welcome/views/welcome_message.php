@@ -86,8 +86,8 @@
 				<p align="justify"><?php echo strip_tags(substr($hasil[$i]['content'], 0, 550))?>... Baca Selengkapnya</p>
 				<?php 
 					if ($hasil[$i]['nama_file'] != '' || $hasil[$i]['nama_file'] != NULL) {
-						echo "View PDF";
-					}
+						echo anchor('welcome/viewPDF/'.$hasil[$i]['id'],"View PDF");
+					}					
 				?>
 				<br /><br />
 			<?php } ?>
@@ -95,8 +95,7 @@
 		</p>
 	</div>
 
-	<p class="footer">
-	
+	<p class="footer">	
 		<?php echo $this->pagination->create_links();?>
 		Page rendered in <strong>{elapsed_time}</strong> seconds
 	</p>

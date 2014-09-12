@@ -135,6 +135,31 @@ class Admin extends CI_Controller {
 		$this->aauth->create_user('swanadiva','kita292390','Swana Diva Borneos');
 	}
 	
+	public function list_post(){ //SHOW ALL POST
+		$num = $this->mdl_admin->num();		
+		$config['base_url'] = base_url().'/admin/next';
+		$config['total_rows'] = $num;
+		$config['per_page'] = 15; 
+		$this->pagination->initialize($config); 
+		$data['menu'] = 'menu';
+		$data['post'] = $this->mdl_admin->list_post($config['per_page'],0);						
+		$this->load->view('list',$data);		
+	}
+	
+	public function next(){ //pagination
+		$num = $this->mdl_admin->num();		
+		$config['base_url'] = base_url().'/admin/next';
+		$config['total_rows'] = $num;
+		$config['per_page'] = 15; 
+		$this->pagination->initialize($config); 
+		$data['menu'] = 'menu';
+		$data['post'] = $this->mdl_admin->list_post($config['per_page'],$this->uri->segment(3));						
+		$this->load->view('list',$data);		
+	}
+	
+	public function view(){
+		$this->load->view('view');
+	}
 }
 
 /* End of file admin.php */

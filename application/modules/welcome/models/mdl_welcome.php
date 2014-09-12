@@ -13,6 +13,10 @@ class Mdl_welcome extends CI_Model {
 		$query = $this->db->query("SELECT * FROM tbl_content WHERE CONCAT(judul, content, keyword) REGEXP '$simpan'")->num_rows();
 		return $query;
 	}
+	
+	public function selectById($table,$param){ //get value per ID
+		return $this->db->get_where($table,$param)->result_array();
+	}
 }
 
 /* End of file mdl_admin.php */

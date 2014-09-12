@@ -17,6 +17,21 @@ class Mdl_admin extends CI_Model {
 	public function save_post(){
 		
 	}
+	
+	public function list_post($num,$offset){ //getAll Content
+		$this->db->limit($num,$offset);
+		$this->db->from('tbl_content');
+		$this->db->join('tbl_unit','tbl_content.unit = tbl_unit.id','left');
+		return $this->db->get()->result_array();
+	}
+	
+	public function num(){ 
+		return $this->db->get('tbl_content')->num_rows();
+	}
+	
+	public function selectById($table,$param){
+		$this->db->get_where($table,$param)->result_array();
+	}
 }
 
 /* End of file mdl_admin.php */

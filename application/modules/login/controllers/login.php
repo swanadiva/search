@@ -80,10 +80,4 @@ class Login extends CI_Controller {
 			redirect('login/add_user');
 		}
 	}
-
-	public function add_groups(){
-		$data['menu'] = 'menu';
-		$data['content'] = 'add_user';
-		$this->load->view('template', $data);
-	}
 }
